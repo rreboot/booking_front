@@ -1,10 +1,14 @@
-import { Button, Container, Typography } from '@mui/material';
-import React, { useState } from 'react';
-import { getCookie, getCookies, setCookie } from 'typescript-cookie';
-import SignIn from './components/Signin/Signin';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Header from './components/Header/Header';
 
 const App = (): JSX.Element => {
-  return <SignIn />;
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
 };
 
 export default App;
