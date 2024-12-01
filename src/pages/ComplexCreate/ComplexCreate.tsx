@@ -9,10 +9,6 @@ import { IComplex } from '../../components/Complex/Complex';
 
 const marks = [
   {
-    value: 30,
-    label: '30 мин'
-  },
-  {
     value: 60,
     label: '1 час'
   },
@@ -27,10 +23,6 @@ const marks = [
   {
     value: 240,
     label: '4 часа'
-  },
-  {
-    value: 300,
-    label: '5 часов'
   }
 ];
 
@@ -59,7 +51,7 @@ export const ComplexCreate = (): JSX.Element => {
       price: price
     };
     axios.post<IComplex>('/api/v1/complex', data).then((response: AxiosResponse<IComplex>) => {
-      // navigate('/appointments');
+      navigate('/complex/list');
     });
   };
 

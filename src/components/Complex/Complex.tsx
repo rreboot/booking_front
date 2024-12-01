@@ -1,16 +1,10 @@
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography
-} from '@mui/material';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditIcon from '@mui/icons-material/Edit';
+import { Button, Card, CardActions, CardContent, CardHeader, Typography } from '@mui/material';
 import { formatDuration, intervalToDuration } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import React, { useState } from 'react';
+import { DeleteDialog } from '../DeleteDialog/DeleteDialog';
 
 export interface IComplex {
   id: number;
@@ -21,24 +15,20 @@ export interface IComplex {
 }
 
 export const Complex = (props: IComplex): JSX.Element => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [openDialog, setOpenDialog] = useState(false);
   const duration = intervalToDuration({ start: 0, end: props.interval * 60 * 1000 });
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    setAnchorEl(event.currentTarget);
+  const handleCloseDialog = (newValue?: string): void => {
+    setOpenDialog(false);
   };
-  const handleClose = (): void => {
-    setAnchorEl(null);
+
+  const handleOpen = (): void => {
+    setOpenDialog(true);
   };
+
   return (
     <Card variant="outlined">
       <CardHeader
-        action={
-          <IconButton aria-label="settings" onClick={handleClick}>
-            <MoreVertIcon />
-          </IconButton>
-        }
         title={props.name}
         subheader={
           <Typography color="text.secondary">
@@ -51,26 +41,27 @@ export const Complex = (props: IComplex): JSX.Element => {
           {props.description}
         </Typography>
       </CardContent>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'settings-button'
-        }}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left'
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left'
-        }}
-      >
-        <MenuItem onClick={handleClose}>Редактировать</MenuItem>
-        <MenuItem onClick={handleClose}>Удалить</MenuItem>
-      </Menu>
+      <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Button size="small" startIcon={<EditIcon />}>
+          Редактировать
+        </Button>
+        <Button
+          size="small"
+          color="warning"
+          sx={{ alignSelf: 'flex-end', display: 'flex' }}
+          startIcon={<DeleteOutlineIcon />}
+          onClick={handleOpen}
+        >
+          Удалить
+        </Button>
+      </CardActions>
+      <DeleteDialog
+        id={props.id}
+        keepMounted
+        open={openDialog}
+        onClose={handleCloseDialog}
+        value={props.name}
+      />
     </Card>
   );
 };

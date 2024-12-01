@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App';
-import { Complex } from './components/Complex/Complex';
 import './index.css';
 import { Appointments } from './pages/Appointments/Appointments';
 import { ComplexCreate } from './pages/ComplexCreate/ComplexCreate';
 import { ComplexList } from './pages/ComplexList/ComplexList';
+import { Layout } from './pages/Layout/Layout';
 import { SignIn } from './pages/Signin/Signin';
 import { SignUp } from './pages/Signup/SignUp';
 
@@ -22,7 +22,7 @@ export const UserContext = React.createContext({} as IDataToken);
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<App />}>
+      <Route path="/" element={<Layout />}>
         <Route path="appointments" element={<Appointments />} />
         <Route path="complex">
           <Route path="create" element={<ComplexCreate />} />
